@@ -35,7 +35,9 @@ defmodule StellarBase.XDR.OperationBody do
     SetTrustLineFlagsOp,
     LiquidityPoolDepositOp,
     LiquidityPoolWithdrawOp,
-    InvokeHostFunctionOp
+    InvokeHostFunctionOp,
+    BumpFootprintExpirationOp,
+    RestoreFootprintOp
   }
 
   @arms [
@@ -63,7 +65,9 @@ defmodule StellarBase.XDR.OperationBody do
     SET_TRUST_LINE_FLAGS: SetTrustLineFlagsOp,
     LIQUIDITY_POOL_DEPOSIT: LiquidityPoolDepositOp,
     LIQUIDITY_POOL_WITHDRAW: LiquidityPoolWithdrawOp,
-    INVOKE_HOST_FUNCTION: InvokeHostFunctionOp
+    INVOKE_HOST_FUNCTION: InvokeHostFunctionOp,
+    BUMP_FOOTPRINT_EXPIRATION: BumpFootprintExpirationOp,
+    RESTORE_FOOTPRINT: RestoreFootprintOp
   ]
 
   @type value ::
@@ -91,6 +95,8 @@ defmodule StellarBase.XDR.OperationBody do
           | LiquidityPoolDepositOp.t()
           | LiquidityPoolWithdrawOp.t()
           | InvokeHostFunctionOp.t()
+          | BumpFootprintExpirationOp.t()
+          | RestoreFootprintOp.t()
 
   @type t :: %__MODULE__{value: value(), type: OperationType.t()}
 

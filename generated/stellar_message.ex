@@ -28,6 +28,7 @@ defmodule StellarBase.XDR.StellarMessage do
     SCPEnvelope,
     Uint32,
     SendMore,
+    SendMoreExtended,
     FloodAdvert,
     FloodDemand
   }
@@ -50,6 +51,7 @@ defmodule StellarBase.XDR.StellarMessage do
     SCP_MESSAGE: SCPEnvelope,
     GET_SCP_STATE: Uint32,
     SEND_MORE: SendMore,
+    SEND_MORE_EXTENDED: SendMoreExtended,
     FLOOD_ADVERT: FloodAdvert,
     FLOOD_DEMAND: FloodDemand
   ]
@@ -71,6 +73,7 @@ defmodule StellarBase.XDR.StellarMessage do
           | SCPEnvelope.t()
           | Uint32.t()
           | SendMore.t()
+          | SendMoreExtended.t()
           | FloodAdvert.t()
           | FloodDemand.t()
 

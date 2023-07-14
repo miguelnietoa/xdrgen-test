@@ -35,7 +35,9 @@ defmodule StellarBase.XDR.OperationType do
     SET_TRUST_LINE_FLAGS: 21,
     LIQUIDITY_POOL_DEPOSIT: 22,
     LIQUIDITY_POOL_WITHDRAW: 23,
-    INVOKE_HOST_FUNCTION: 24
+    INVOKE_HOST_FUNCTION: 24,
+    BUMP_FOOTPRINT_EXPIRATION: 25,
+    RESTORE_FOOTPRINT: 26
   ]
 
   @enum_spec %XDR.Enum{declarations: @declarations, identifier: nil}

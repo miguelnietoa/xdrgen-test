@@ -13,41 +13,45 @@ defmodule StellarBase.XDR.ContractCodeEntry do
   alias StellarBase.XDR.{
     ExtensionPoint,
     Hash,
-    VariableOpaque256000
+    ContractCodeEntryBody,
+    Uint32
   }
 
   @struct_spec XDR.Struct.new(
     ext: ExtensionPoint,
     hash: Hash,
-    code: VariableOpaque256000
+    body: ContractCodeEntryBody,
+    expiration_ledger_seq: Uint32
   )
 
   @type ext_type :: ExtensionPoint.t()
   @type hash_type :: Hash.t()
-  @type code_type :: VariableOpaque256000.t()
+  @type body_type :: ContractCodeEntryBody.t()
+  @type expiration_ledger_seq_type :: Uint32.t()
 
-  @type t :: %__MODULE__{ext: ext_type(), hash: hash_type(), code: code_type()}
+  @type t :: %__MODULE__{ext: ext_type(), hash: hash_type(), body: body_type(), expiration_ledger_seq: expiration_ledger_seq_type()}
 
-  defstruct [:ext, :hash, :code]
+  defstruct [:ext, :hash, :body, :expiration_ledger_seq]
 
-  @spec new(ext :: ext_type(), hash :: hash_type(), code :: code_type()) :: t()
+  @spec new(ext :: ext_type(), hash :: hash_type(), body :: body_type(), expiration_ledger_seq :: expiration_ledger_seq_type()) :: t()
   def new(
     %ExtensionPoint{} = ext,
     %Hash{} = hash,
-    %VariableOpaque256000{} = code
+    %ContractCodeEntryBody{} = body,
+    %Uint32{} = expiration_ledger_seq
   ),
-  do: %__MODULE__{ext: ext, hash: hash, code: code}
+  do: %__MODULE__{ext: ext, hash: hash, body: body, expiration_ledger_seq: expiration_ledger_seq}
 
   @impl true
-  def encode_xdr(%__MODULE__{ext: ext, hash: hash, code: code}) do
-    [ext: ext, hash: hash, code: code]
+  def encode_xdr(%__MODULE__{ext: ext, hash: hash, body: body, expiration_ledger_seq: expiration_ledger_seq}) do
+    [ext: ext, hash: hash, body: body, expiration_ledger_seq: expiration_ledger_seq]
     |> XDR.Struct.new()
     |> XDR.Struct.encode_xdr()
   end
 
   @impl true
-  def encode_xdr!(%__MODULE__{ext: ext, hash: hash, code: code}) do
-    [ext: ext, hash: hash, code: code]
+  def encode_xdr!(%__MODULE__{ext: ext, hash: hash, body: body, expiration_ledger_seq: expiration_ledger_seq}) do
+    [ext: ext, hash: hash, body: body, expiration_ledger_seq: expiration_ledger_seq]
     |> XDR.Struct.new()
     |> XDR.Struct.encode_xdr!()
   end
@@ -57,8 +61,8 @@ defmodule StellarBase.XDR.ContractCodeEntry do
 
   def decode_xdr(bytes, struct) do
     case XDR.Struct.decode_xdr(bytes, struct) do
-      {:ok, {%XDR.Struct{components: [ext: ext, hash: hash, code: code]}, rest}} ->
-        {:ok, {new(ext, hash, code), rest}}
+      {:ok, {%XDR.Struct{components: [ext: ext, hash: hash, body: body, expiration_ledger_seq: expiration_ledger_seq]}, rest}} ->
+        {:ok, {new(ext, hash, body, expiration_ledger_seq), rest}}
       error -> error
     end
   end
@@ -67,8 +71,8 @@ defmodule StellarBase.XDR.ContractCodeEntry do
   def decode_xdr!(bytes, struct \\ @struct_spec)
 
   def decode_xdr!(bytes, struct) do
-    {%XDR.Struct{components: [ext: ext, hash: hash, code: code]}, rest} =
+    {%XDR.Struct{components: [ext: ext, hash: hash, body: body, expiration_ledger_seq: expiration_ledger_seq]}, rest} =
       XDR.Struct.decode_xdr!(bytes, struct)
-    {new(ext, hash, code), rest}
+    {new(ext, hash, body, expiration_ledger_seq), rest}
   end
 end

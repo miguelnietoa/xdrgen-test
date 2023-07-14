@@ -11,35 +11,39 @@ defmodule StellarBase.XDR.LedgerKeyContractCode do
   @behaviour XDR.Declaration
 
   alias StellarBase.XDR.{
-    Hash
+    Hash,
+    ContractEntryBodyType
   }
 
   @struct_spec XDR.Struct.new(
-    hash: Hash
+    hash: Hash,
+    body_type: ContractEntryBodyType
   )
 
   @type hash_type :: Hash.t()
+  @type body_type_type :: ContractEntryBodyType.t()
 
-  @type t :: %__MODULE__{hash: hash_type()}
+  @type t :: %__MODULE__{hash: hash_type(), body_type: body_type_type()}
 
-  defstruct [:hash]
+  defstruct [:hash, :body_type]
 
-  @spec new(hash :: hash_type()) :: t()
+  @spec new(hash :: hash_type(), body_type :: body_type_type()) :: t()
   def new(
-    %Hash{} = hash
+    %Hash{} = hash,
+    %ContractEntryBodyType{} = body_type
   ),
-  do: %__MODULE__{hash: hash}
+  do: %__MODULE__{hash: hash, body_type: body_type}
 
   @impl true
-  def encode_xdr(%__MODULE__{hash: hash}) do
-    [hash: hash]
+  def encode_xdr(%__MODULE__{hash: hash, body_type: body_type}) do
+    [hash: hash, body_type: body_type]
     |> XDR.Struct.new()
     |> XDR.Struct.encode_xdr()
   end
 
   @impl true
-  def encode_xdr!(%__MODULE__{hash: hash}) do
-    [hash: hash]
+  def encode_xdr!(%__MODULE__{hash: hash, body_type: body_type}) do
+    [hash: hash, body_type: body_type]
     |> XDR.Struct.new()
     |> XDR.Struct.encode_xdr!()
   end
@@ -49,8 +53,8 @@ defmodule StellarBase.XDR.LedgerKeyContractCode do
 
   def decode_xdr(bytes, struct) do
     case XDR.Struct.decode_xdr(bytes, struct) do
-      {:ok, {%XDR.Struct{components: [hash: hash]}, rest}} ->
-        {:ok, {new(hash), rest}}
+      {:ok, {%XDR.Struct{components: [hash: hash, body_type: body_type]}, rest}} ->
+        {:ok, {new(hash, body_type), rest}}
       error -> error
     end
   end
@@ -59,8 +63,8 @@ defmodule StellarBase.XDR.LedgerKeyContractCode do
   def decode_xdr!(bytes, struct \\ @struct_spec)
 
   def decode_xdr!(bytes, struct) do
-    {%XDR.Struct{components: [hash: hash]}, rest} =
+    {%XDR.Struct{components: [hash: hash, body_type: body_type]}, rest} =
       XDR.Struct.decode_xdr!(bytes, struct)
-    {new(hash), rest}
+    {new(hash, body_type), rest}
   end
 end

@@ -10,7 +10,7 @@ defmodule StellarBase.XDR.SCBytes do
 
   @behaviour XDR.Declaration
 
-  alias StellarBase.XDR.VariableOpaque256000
+  alias StellarBase.XDR.VariableOpaque
 
   @type t :: %__MODULE__{value: binary()}
 
@@ -22,23 +22,23 @@ defmodule StellarBase.XDR.SCBytes do
   @impl true
   def encode_xdr(%__MODULE__{value: value}) do
     value
-    |> VariableOpaque256000.new()
-    |> VariableOpaque256000.encode_xdr()
+    |> VariableOpaque.new()
+    |> VariableOpaque.encode_xdr()
   end
 
   @impl true
   def encode_xdr!(%__MODULE__{value: value}) do
     value
-    |> VariableOpaque256000.new()
-    |> VariableOpaque256000.encode_xdr!()
+    |> VariableOpaque.new()
+    |> VariableOpaque.encode_xdr!()
   end
 
   @impl true
   def decode_xdr(bytes, term \\ nil)
 
   def decode_xdr(bytes, _term) do
-    case VariableOpaque256000.decode_xdr(bytes) do
-      {:ok, {%VariableOpaque256000{opaque: value}, rest}} -> {:ok, {new(value), rest}}
+    case VariableOpaque.decode_xdr(bytes) do
+      {:ok, {%VariableOpaque{opaque: value}, rest}} -> {:ok, {new(value), rest}}
       error -> error
     end
   end
@@ -47,7 +47,7 @@ defmodule StellarBase.XDR.SCBytes do
   def decode_xdr!(bytes, term \\ nil)
 
   def decode_xdr!(bytes, _term) do
-    {%VariableOpaque256000{opaque: value}, rest} = VariableOpaque256000.decode_xdr!(bytes)
+    {%VariableOpaque{opaque: value}, rest} = VariableOpaque.decode_xdr!(bytes)
     {new(value), rest}
   end
 end

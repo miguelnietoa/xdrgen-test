@@ -28,6 +28,7 @@ defmodule StellarBase.XDR.MessageType do
     SURVEY_REQUEST: 14,
     SURVEY_RESPONSE: 15,
     SEND_MORE: 16,
+    SEND_MORE_EXTENDED: 20,
     FLOOD_ADVERT: 18,
     FLOOD_DEMAND: 19
   ]

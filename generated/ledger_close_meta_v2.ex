@@ -11,51 +11,67 @@ defmodule StellarBase.XDR.LedgerCloseMetaV2 do
   @behaviour XDR.Declaration
 
   alias StellarBase.XDR.{
+    ExtensionPoint,
     LedgerHeaderHistoryEntry,
     GeneralizedTransactionSet,
-    TransactionResultMetaV2List,
+    TransactionResultMetaList,
     UpgradeEntryMetaList,
-    SCPHistoryEntryList
+    SCPHistoryEntryList,
+    Uint64,
+    LedgerKeyList,
+    LedgerEntryList
   }
 
   @struct_spec XDR.Struct.new(
+    ext: ExtensionPoint,
     ledger_header: LedgerHeaderHistoryEntry,
     tx_set: GeneralizedTransactionSet,
-    tx_processing: TransactionResultMetaV2List,
+    tx_processing: TransactionResultMetaList,
     upgrades_processing: UpgradeEntryMetaList,
-    scp_info: SCPHistoryEntryList
+    scp_info: SCPHistoryEntryList,
+    total_byte_size_of_bucket_list: Uint64,
+    evicted_temporary_ledger_keys: LedgerKeyList,
+    evicted_persistent_ledger_entries: LedgerEntryList
   )
 
+  @type ext_type :: ExtensionPoint.t()
   @type ledger_header_type :: LedgerHeaderHistoryEntry.t()
   @type tx_set_type :: GeneralizedTransactionSet.t()
-  @type tx_processing_type :: TransactionResultMetaV2List.t()
+  @type tx_processing_type :: TransactionResultMetaList.t()
   @type upgrades_processing_type :: UpgradeEntryMetaList.t()
   @type scp_info_type :: SCPHistoryEntryList.t()
+  @type total_byte_size_of_bucket_list_type :: Uint64.t()
+  @type evicted_temporary_ledger_keys_type :: LedgerKeyList.t()
+  @type evicted_persistent_ledger_entries_type :: LedgerEntryList.t()
 
-  @type t :: %__MODULE__{ledger_header: ledger_header_type(), tx_set: tx_set_type(), tx_processing: tx_processing_type(), upgrades_processing: upgrades_processing_type(), scp_info: scp_info_type()}
+  @type t :: %__MODULE__{ext: ext_type(), ledger_header: ledger_header_type(), tx_set: tx_set_type(), tx_processing: tx_processing_type(), upgrades_processing: upgrades_processing_type(), scp_info: scp_info_type(), total_byte_size_of_bucket_list: total_byte_size_of_bucket_list_type(), evicted_temporary_ledger_keys: evicted_temporary_ledger_keys_type(), evicted_persistent_ledger_entries: evicted_persistent_ledger_entries_type()}
 
-  defstruct [:ledger_header, :tx_set, :tx_processing, :upgrades_processing, :scp_info]
+  defstruct [:ext, :ledger_header, :tx_set, :tx_processing, :upgrades_processing, :scp_info, :total_byte_size_of_bucket_list, :evicted_temporary_ledger_keys, :evicted_persistent_ledger_entries]
 
-  @spec new(ledger_header :: ledger_header_type(), tx_set :: tx_set_type(), tx_processing :: tx_processing_type(), upgrades_processing :: upgrades_processing_type(), scp_info :: scp_info_type()) :: t()
+  @spec new(ext :: ext_type(), ledger_header :: ledger_header_type(), tx_set :: tx_set_type(), tx_processing :: tx_processing_type(), upgrades_processing :: upgrades_processing_type(), scp_info :: scp_info_type(), total_byte_size_of_bucket_list :: total_byte_size_of_bucket_list_type(), evicted_temporary_ledger_keys :: evicted_temporary_ledger_keys_type(), evicted_persistent_ledger_entries :: evicted_persistent_ledger_entries_type()) :: t()
   def new(
+    %ExtensionPoint{} = ext,
     %LedgerHeaderHistoryEntry{} = ledger_header,
     %GeneralizedTransactionSet{} = tx_set,
-    %TransactionResultMetaV2List{} = tx_processing,
+    %TransactionResultMetaList{} = tx_processing,
     %UpgradeEntryMetaList{} = upgrades_processing,
-    %SCPHistoryEntryList{} = scp_info
+    %SCPHistoryEntryList{} = scp_info,
+    %Uint64{} = total_byte_size_of_bucket_list,
+    %LedgerKeyList{} = evicted_temporary_ledger_keys,
+    %LedgerEntryList{} = evicted_persistent_ledger_entries
   ),
-  do: %__MODULE__{ledger_header: ledger_header, tx_set: tx_set, tx_processing: tx_processing, upgrades_processing: upgrades_processing, scp_info: scp_info}
+  do: %__MODULE__{ext: ext, ledger_header: ledger_header, tx_set: tx_set, tx_processing: tx_processing, upgrades_processing: upgrades_processing, scp_info: scp_info, total_byte_size_of_bucket_list: total_byte_size_of_bucket_list, evicted_temporary_ledger_keys: evicted_temporary_ledger_keys, evicted_persistent_ledger_entries: evicted_persistent_ledger_entries}
 
   @impl true
-  def encode_xdr(%__MODULE__{ledger_header: ledger_header, tx_set: tx_set, tx_processing: tx_processing, upgrades_processing: upgrades_processing, scp_info: scp_info}) do
-    [ledger_header: ledger_header, tx_set: tx_set, tx_processing: tx_processing, upgrades_processing: upgrades_processing, scp_info: scp_info]
+  def encode_xdr(%__MODULE__{ext: ext, ledger_header: ledger_header, tx_set: tx_set, tx_processing: tx_processing, upgrades_processing: upgrades_processing, scp_info: scp_info, total_byte_size_of_bucket_list: total_byte_size_of_bucket_list, evicted_temporary_ledger_keys: evicted_temporary_ledger_keys, evicted_persistent_ledger_entries: evicted_persistent_ledger_entries}) do
+    [ext: ext, ledger_header: ledger_header, tx_set: tx_set, tx_processing: tx_processing, upgrades_processing: upgrades_processing, scp_info: scp_info, total_byte_size_of_bucket_list: total_byte_size_of_bucket_list, evicted_temporary_ledger_keys: evicted_temporary_ledger_keys, evicted_persistent_ledger_entries: evicted_persistent_ledger_entries]
     |> XDR.Struct.new()
     |> XDR.Struct.encode_xdr()
   end
 
   @impl true
-  def encode_xdr!(%__MODULE__{ledger_header: ledger_header, tx_set: tx_set, tx_processing: tx_processing, upgrades_processing: upgrades_processing, scp_info: scp_info}) do
-    [ledger_header: ledger_header, tx_set: tx_set, tx_processing: tx_processing, upgrades_processing: upgrades_processing, scp_info: scp_info]
+  def encode_xdr!(%__MODULE__{ext: ext, ledger_header: ledger_header, tx_set: tx_set, tx_processing: tx_processing, upgrades_processing: upgrades_processing, scp_info: scp_info, total_byte_size_of_bucket_list: total_byte_size_of_bucket_list, evicted_temporary_ledger_keys: evicted_temporary_ledger_keys, evicted_persistent_ledger_entries: evicted_persistent_ledger_entries}) do
+    [ext: ext, ledger_header: ledger_header, tx_set: tx_set, tx_processing: tx_processing, upgrades_processing: upgrades_processing, scp_info: scp_info, total_byte_size_of_bucket_list: total_byte_size_of_bucket_list, evicted_temporary_ledger_keys: evicted_temporary_ledger_keys, evicted_persistent_ledger_entries: evicted_persistent_ledger_entries]
     |> XDR.Struct.new()
     |> XDR.Struct.encode_xdr!()
   end
@@ -65,8 +81,8 @@ defmodule StellarBase.XDR.LedgerCloseMetaV2 do
 
   def decode_xdr(bytes, struct) do
     case XDR.Struct.decode_xdr(bytes, struct) do
-      {:ok, {%XDR.Struct{components: [ledger_header: ledger_header, tx_set: tx_set, tx_processing: tx_processing, upgrades_processing: upgrades_processing, scp_info: scp_info]}, rest}} ->
-        {:ok, {new(ledger_header, tx_set, tx_processing, upgrades_processing, scp_info), rest}}
+      {:ok, {%XDR.Struct{components: [ext: ext, ledger_header: ledger_header, tx_set: tx_set, tx_processing: tx_processing, upgrades_processing: upgrades_processing, scp_info: scp_info, total_byte_size_of_bucket_list: total_byte_size_of_bucket_list, evicted_temporary_ledger_keys: evicted_temporary_ledger_keys, evicted_persistent_ledger_entries: evicted_persistent_ledger_entries]}, rest}} ->
+        {:ok, {new(ext, ledger_header, tx_set, tx_processing, upgrades_processing, scp_info, total_byte_size_of_bucket_list, evicted_temporary_ledger_keys, evicted_persistent_ledger_entries), rest}}
       error -> error
     end
   end
@@ -75,8 +91,8 @@ defmodule StellarBase.XDR.LedgerCloseMetaV2 do
   def decode_xdr!(bytes, struct \\ @struct_spec)
 
   def decode_xdr!(bytes, struct) do
-    {%XDR.Struct{components: [ledger_header: ledger_header, tx_set: tx_set, tx_processing: tx_processing, upgrades_processing: upgrades_processing, scp_info: scp_info]}, rest} =
+    {%XDR.Struct{components: [ext: ext, ledger_header: ledger_header, tx_set: tx_set, tx_processing: tx_processing, upgrades_processing: upgrades_processing, scp_info: scp_info, total_byte_size_of_bucket_list: total_byte_size_of_bucket_list, evicted_temporary_ledger_keys: evicted_temporary_ledger_keys, evicted_persistent_ledger_entries: evicted_persistent_ledger_entries]}, rest} =
       XDR.Struct.decode_xdr!(bytes, struct)
-    {new(ledger_header, tx_set, tx_processing, upgrades_processing, scp_info), rest}
+    {new(ext, ledger_header, tx_set, tx_processing, upgrades_processing, scp_info, total_byte_size_of_bucket_list, evicted_temporary_ledger_keys, evicted_persistent_ledger_entries), rest}
   end
 end

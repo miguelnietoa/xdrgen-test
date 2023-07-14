@@ -12,11 +12,9 @@ defmodule StellarBase.XDR.SCMap do
 
   alias StellarBase.XDR.SCMapEntry
 
-  @max_length 256000
-
   @array_type SCMapEntry
 
-  @array_spec %{type: @array_type, max_length: @max_length}
+  @array_spec %{type: @array_type}
 
   @type t :: %__MODULE__{items: list(SCMapEntry.t())}
 
@@ -28,14 +26,14 @@ defmodule StellarBase.XDR.SCMap do
   @impl true
   def encode_xdr(%__MODULE__{items: items}) do
     items
-    |> XDR.VariableArray.new(@array_type, @max_length)
+    |> XDR.VariableArray.new(@array_type)
     |> XDR.VariableArray.encode_xdr()
   end
 
   @impl true
   def encode_xdr!(%__MODULE__{items: items}) do
     items
-    |> XDR.VariableArray.new(@array_type, @max_length)
+    |> XDR.VariableArray.new(@array_type)
     |> XDR.VariableArray.encode_xdr!()
   end
 

@@ -14,34 +14,22 @@ defmodule StellarBase.XDR.HashIDPreimage do
     EnvelopeType,
     HashIDPreimageOperationID,
     HashIDPreimageRevokeID,
-    HashIDPreimageEd25519ContractID,
     HashIDPreimageContractID,
-    HashIDPreimageFromAsset,
-    HashIDPreimageSourceAccountContractID,
-    HashIDPreimageCreateContractArgs,
-    HashIDPreimageContractAuth
+    HashIDPreimageSorobanAuthorization
   }
 
   @arms [
     ENVELOPE_TYPE_OP_ID: HashIDPreimageOperationID,
     ENVELOPE_TYPE_POOL_REVOKE_OP_ID: HashIDPreimageRevokeID,
-    ENVELOPE_TYPE_CONTRACT_ID_FROM_ED25519: HashIDPreimageEd25519ContractID,
-    ENVELOPE_TYPE_CONTRACT_ID_FROM_CONTRACT: HashIDPreimageContractID,
-    ENVELOPE_TYPE_CONTRACT_ID_FROM_ASSET: HashIDPreimageFromAsset,
-    ENVELOPE_TYPE_CONTRACT_ID_FROM_SOURCE_ACCOUNT: HashIDPreimageSourceAccountContractID,
-    ENVELOPE_TYPE_CREATE_CONTRACT_ARGS: HashIDPreimageCreateContractArgs,
-    ENVELOPE_TYPE_CONTRACT_AUTH: HashIDPreimageContractAuth
+    ENVELOPE_TYPE_CONTRACT_ID: HashIDPreimageContractID,
+    ENVELOPE_TYPE_SOROBAN_AUTHORIZATION: HashIDPreimageSorobanAuthorization
   ]
 
   @type value ::
           HashIDPreimageOperationID.t()
           | HashIDPreimageRevokeID.t()
-          | HashIDPreimageEd25519ContractID.t()
           | HashIDPreimageContractID.t()
-          | HashIDPreimageFromAsset.t()
-          | HashIDPreimageSourceAccountContractID.t()
-          | HashIDPreimageCreateContractArgs.t()
-          | HashIDPreimageContractAuth.t()
+          | HashIDPreimageSorobanAuthorization.t()
 
   @type t :: %__MODULE__{value: value(), type: EnvelopeType.t()}
 

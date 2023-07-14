@@ -27,7 +27,7 @@ defmodule StellarBase.XDR.SCSpecTypeDef do
     SC_SPEC_TYPE_VAL: Void,
     SC_SPEC_TYPE_BOOL: Void,
     SC_SPEC_TYPE_VOID: Void,
-    SC_SPEC_TYPE_STATUS: Void,
+    SC_SPEC_TYPE_ERROR: Void,
     SC_SPEC_TYPE_U32: Void,
     SC_SPEC_TYPE_I32: Void,
     SC_SPEC_TYPE_U64: Void,

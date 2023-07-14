@@ -14,22 +14,20 @@ defmodule StellarBase.XDR.SCString do
 
   defstruct [:value]
 
-  @max_length 256000
-
   @spec new(value :: String.t()) :: t()
   def new(value), do: %__MODULE__{value: value}
 
   @impl true
   def encode_xdr(%__MODULE__{value: value}) do
     value
-    |> XDR.String.new(@max_length)
+    |> XDR.String.new()
     |> XDR.String.encode_xdr()
   end
 
   @impl true
   def encode_xdr!(%__MODULE__{value: value}) do
     value
-    |> XDR.String.new(@max_length)
+    |> XDR.String.new()
     |> XDR.String.encode_xdr!()
   end
 
