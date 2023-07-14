@@ -22,7 +22,11 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```bash
+ruby run.rb
+```
+
+See the `generated/` folder.
 
 ## Development
 
