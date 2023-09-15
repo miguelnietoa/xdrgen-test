@@ -22,7 +22,8 @@ defmodule StellarBase.XDR.LedgerUpgrade do
     LEDGER_UPGRADE_MAX_TX_SET_SIZE: Uint32,
     LEDGER_UPGRADE_BASE_RESERVE: Uint32,
     LEDGER_UPGRADE_FLAGS: Uint32,
-    LEDGER_UPGRADE_CONFIG: ConfigUpgradeSetKey
+    LEDGER_UPGRADE_CONFIG: ConfigUpgradeSetKey,
+    LEDGER_UPGRADE_MAX_SOROBAN_TX_SET_SIZE: Uint32
   ]
 
   @type value ::

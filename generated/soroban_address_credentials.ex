@@ -14,44 +14,44 @@ defmodule StellarBase.XDR.SorobanAddressCredentials do
     SCAddress,
     Int64,
     Uint32,
-    SCVec
+    SCVal
   }
 
   @struct_spec XDR.Struct.new(
     address: SCAddress,
     nonce: Int64,
     signature_expiration_ledger: Uint32,
-    signature_args: SCVec
+    signature: SCVal
   )
 
   @type address_type :: SCAddress.t()
   @type nonce_type :: Int64.t()
   @type signature_expiration_ledger_type :: Uint32.t()
-  @type signature_args_type :: SCVec.t()
+  @type signature_type :: SCVal.t()
 
-  @type t :: %__MODULE__{address: address_type(), nonce: nonce_type(), signature_expiration_ledger: signature_expiration_ledger_type(), signature_args: signature_args_type()}
+  @type t :: %__MODULE__{address: address_type(), nonce: nonce_type(), signature_expiration_ledger: signature_expiration_ledger_type(), signature: signature_type()}
 
-  defstruct [:address, :nonce, :signature_expiration_ledger, :signature_args]
+  defstruct [:address, :nonce, :signature_expiration_ledger, :signature]
 
-  @spec new(address :: address_type(), nonce :: nonce_type(), signature_expiration_ledger :: signature_expiration_ledger_type(), signature_args :: signature_args_type()) :: t()
+  @spec new(address :: address_type(), nonce :: nonce_type(), signature_expiration_ledger :: signature_expiration_ledger_type(), signature :: signature_type()) :: t()
   def new(
     %SCAddress{} = address,
     %Int64{} = nonce,
     %Uint32{} = signature_expiration_ledger,
-    %SCVec{} = signature_args
+    %SCVal{} = signature
   ),
-  do: %__MODULE__{address: address, nonce: nonce, signature_expiration_ledger: signature_expiration_ledger, signature_args: signature_args}
+  do: %__MODULE__{address: address, nonce: nonce, signature_expiration_ledger: signature_expiration_ledger, signature: signature}
 
   @impl true
-  def encode_xdr(%__MODULE__{address: address, nonce: nonce, signature_expiration_ledger: signature_expiration_ledger, signature_args: signature_args}) do
-    [address: address, nonce: nonce, signature_expiration_ledger: signature_expiration_ledger, signature_args: signature_args]
+  def encode_xdr(%__MODULE__{address: address, nonce: nonce, signature_expiration_ledger: signature_expiration_ledger, signature: signature}) do
+    [address: address, nonce: nonce, signature_expiration_ledger: signature_expiration_ledger, signature: signature]
     |> XDR.Struct.new()
     |> XDR.Struct.encode_xdr()
   end
 
   @impl true
-  def encode_xdr!(%__MODULE__{address: address, nonce: nonce, signature_expiration_ledger: signature_expiration_ledger, signature_args: signature_args}) do
-    [address: address, nonce: nonce, signature_expiration_ledger: signature_expiration_ledger, signature_args: signature_args]
+  def encode_xdr!(%__MODULE__{address: address, nonce: nonce, signature_expiration_ledger: signature_expiration_ledger, signature: signature}) do
+    [address: address, nonce: nonce, signature_expiration_ledger: signature_expiration_ledger, signature: signature]
     |> XDR.Struct.new()
     |> XDR.Struct.encode_xdr!()
   end
@@ -61,8 +61,8 @@ defmodule StellarBase.XDR.SorobanAddressCredentials do
 
   def decode_xdr(bytes, struct) do
     case XDR.Struct.decode_xdr(bytes, struct) do
-      {:ok, {%XDR.Struct{components: [address: address, nonce: nonce, signature_expiration_ledger: signature_expiration_ledger, signature_args: signature_args]}, rest}} ->
-        {:ok, {new(address, nonce, signature_expiration_ledger, signature_args), rest}}
+      {:ok, {%XDR.Struct{components: [address: address, nonce: nonce, signature_expiration_ledger: signature_expiration_ledger, signature: signature]}, rest}} ->
+        {:ok, {new(address, nonce, signature_expiration_ledger, signature), rest}}
       error -> error
     end
   end
@@ -71,8 +71,8 @@ defmodule StellarBase.XDR.SorobanAddressCredentials do
   def decode_xdr!(bytes, struct \\ @struct_spec)
 
   def decode_xdr!(bytes, struct) do
-    {%XDR.Struct{components: [address: address, nonce: nonce, signature_expiration_ledger: signature_expiration_ledger, signature_args: signature_args]}, rest} =
+    {%XDR.Struct{components: [address: address, nonce: nonce, signature_expiration_ledger: signature_expiration_ledger, signature: signature]}, rest} =
       XDR.Struct.decode_xdr!(bytes, struct)
-    {new(address, nonce, signature_expiration_ledger, signature_args), rest}
+    {new(address, nonce, signature_expiration_ledger, signature), rest}
   end
 end

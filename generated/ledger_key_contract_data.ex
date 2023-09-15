@@ -13,45 +13,41 @@ defmodule StellarBase.XDR.LedgerKeyContractData do
   alias StellarBase.XDR.{
     SCAddress,
     SCVal,
-    ContractDataDurability,
-    ContractEntryBodyType
+    ContractDataDurability
   }
 
   @struct_spec XDR.Struct.new(
     contract: SCAddress,
     key: SCVal,
-    durability: ContractDataDurability,
-    body_type: ContractEntryBodyType
+    durability: ContractDataDurability
   )
 
   @type contract_type :: SCAddress.t()
   @type key_type :: SCVal.t()
   @type durability_type :: ContractDataDurability.t()
-  @type body_type_type :: ContractEntryBodyType.t()
 
-  @type t :: %__MODULE__{contract: contract_type(), key: key_type(), durability: durability_type(), body_type: body_type_type()}
+  @type t :: %__MODULE__{contract: contract_type(), key: key_type(), durability: durability_type()}
 
-  defstruct [:contract, :key, :durability, :body_type]
+  defstruct [:contract, :key, :durability]
 
-  @spec new(contract :: contract_type(), key :: key_type(), durability :: durability_type(), body_type :: body_type_type()) :: t()
+  @spec new(contract :: contract_type(), key :: key_type(), durability :: durability_type()) :: t()
   def new(
     %SCAddress{} = contract,
     %SCVal{} = key,
-    %ContractDataDurability{} = durability,
-    %ContractEntryBodyType{} = body_type
+    %ContractDataDurability{} = durability
   ),
-  do: %__MODULE__{contract: contract, key: key, durability: durability, body_type: body_type}
+  do: %__MODULE__{contract: contract, key: key, durability: durability}
 
   @impl true
-  def encode_xdr(%__MODULE__{contract: contract, key: key, durability: durability, body_type: body_type}) do
-    [contract: contract, key: key, durability: durability, body_type: body_type]
+  def encode_xdr(%__MODULE__{contract: contract, key: key, durability: durability}) do
+    [contract: contract, key: key, durability: durability]
     |> XDR.Struct.new()
     |> XDR.Struct.encode_xdr()
   end
 
   @impl true
-  def encode_xdr!(%__MODULE__{contract: contract, key: key, durability: durability, body_type: body_type}) do
-    [contract: contract, key: key, durability: durability, body_type: body_type]
+  def encode_xdr!(%__MODULE__{contract: contract, key: key, durability: durability}) do
+    [contract: contract, key: key, durability: durability]
     |> XDR.Struct.new()
     |> XDR.Struct.encode_xdr!()
   end
@@ -61,8 +57,8 @@ defmodule StellarBase.XDR.LedgerKeyContractData do
 
   def decode_xdr(bytes, struct) do
     case XDR.Struct.decode_xdr(bytes, struct) do
-      {:ok, {%XDR.Struct{components: [contract: contract, key: key, durability: durability, body_type: body_type]}, rest}} ->
-        {:ok, {new(contract, key, durability, body_type), rest}}
+      {:ok, {%XDR.Struct{components: [contract: contract, key: key, durability: durability]}, rest}} ->
+        {:ok, {new(contract, key, durability), rest}}
       error -> error
     end
   end
@@ -71,8 +67,8 @@ defmodule StellarBase.XDR.LedgerKeyContractData do
   def decode_xdr!(bytes, struct \\ @struct_spec)
 
   def decode_xdr!(bytes, struct) do
-    {%XDR.Struct{components: [contract: contract, key: key, durability: durability, body_type: body_type]}, rest} =
+    {%XDR.Struct{components: [contract: contract, key: key, durability: durability]}, rest} =
       XDR.Struct.decode_xdr!(bytes, struct)
-    {new(contract, key, durability, body_type), rest}
+    {new(contract, key, durability), rest}
   end
 end

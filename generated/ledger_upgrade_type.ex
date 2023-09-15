@@ -16,7 +16,8 @@ defmodule StellarBase.XDR.LedgerUpgradeType do
     LEDGER_UPGRADE_MAX_TX_SET_SIZE: 3,
     LEDGER_UPGRADE_BASE_RESERVE: 4,
     LEDGER_UPGRADE_FLAGS: 5,
-    LEDGER_UPGRADE_CONFIG: 6
+    LEDGER_UPGRADE_CONFIG: 6,
+    LEDGER_UPGRADE_MAX_SOROBAN_TX_SET_SIZE: 7
   ]
 
   @enum_spec %XDR.Enum{declarations: @declarations, identifier: nil}
