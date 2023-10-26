@@ -21,7 +21,7 @@ defmodule StellarBase.XDR.LedgerEntryData do
     ContractDataEntry,
     ContractCodeEntry,
     ConfigSettingEntry,
-    ExpirationEntry
+    TTLEntry
   }
 
   @arms [
@@ -34,7 +34,7 @@ defmodule StellarBase.XDR.LedgerEntryData do
     CONTRACT_DATA: ContractDataEntry,
     CONTRACT_CODE: ContractCodeEntry,
     CONFIG_SETTING: ConfigSettingEntry,
-    EXPIRATION: ExpirationEntry
+    TTL: TTLEntry
   ]
 
   @type value ::
@@ -47,7 +47,7 @@ defmodule StellarBase.XDR.LedgerEntryData do
           | ContractDataEntry.t()
           | ContractCodeEntry.t()
           | ConfigSettingEntry.t()
-          | ExpirationEntry.t()
+          | TTLEntry.t()
 
   @type t :: %__MODULE__{value: value(), type: LedgerEntryType.t()}
 

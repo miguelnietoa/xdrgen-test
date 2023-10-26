@@ -36,7 +36,7 @@ defmodule StellarBase.XDR.OperationBody do
     LiquidityPoolDepositOp,
     LiquidityPoolWithdrawOp,
     InvokeHostFunctionOp,
-    BumpFootprintExpirationOp,
+    ExtendFootprintTTLOp,
     RestoreFootprintOp
   }
 
@@ -66,7 +66,7 @@ defmodule StellarBase.XDR.OperationBody do
     LIQUIDITY_POOL_DEPOSIT: LiquidityPoolDepositOp,
     LIQUIDITY_POOL_WITHDRAW: LiquidityPoolWithdrawOp,
     INVOKE_HOST_FUNCTION: InvokeHostFunctionOp,
-    BUMP_FOOTPRINT_EXPIRATION: BumpFootprintExpirationOp,
+    EXTEND_FOOTPRINT_TTL: ExtendFootprintTTLOp,
     RESTORE_FOOTPRINT: RestoreFootprintOp
   ]
 
@@ -95,7 +95,7 @@ defmodule StellarBase.XDR.OperationBody do
           | LiquidityPoolDepositOp.t()
           | LiquidityPoolWithdrawOp.t()
           | InvokeHostFunctionOp.t()
-          | BumpFootprintExpirationOp.t()
+          | ExtendFootprintTTLOp.t()
           | RestoreFootprintOp.t()
 
   @type t :: %__MODULE__{value: value(), type: OperationType.t()}

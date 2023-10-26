@@ -13,20 +13,17 @@ defmodule StellarBase.XDR.LedgerCloseMeta do
   alias StellarBase.XDR.{
     Int,
     LedgerCloseMetaV0,
-    LedgerCloseMetaV1,
-    LedgerCloseMetaV2
+    LedgerCloseMetaV1
   }
 
   @arms %{
     0 => LedgerCloseMetaV0,
-    1 => LedgerCloseMetaV1,
-    2 => LedgerCloseMetaV2
+    1 => LedgerCloseMetaV1
   }
 
   @type value ::
           LedgerCloseMetaV0.t()
           | LedgerCloseMetaV1.t()
-          | LedgerCloseMetaV2.t()
 
   @type t :: %__MODULE__{value: value(), type: integer()}
 
