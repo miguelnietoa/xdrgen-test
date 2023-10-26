@@ -1,32 +1,20 @@
-# Xdrgen::Test
+# Xdrgen for Elixir Stellar Base
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/xdrgen/test`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Install the gem that generates the XDR files:
 
-```ruby
-gem 'xdrgen-test'
-```
-
-And then execute:
-
-    $ bundle install
-
-Or install it yourself as:
-
-    $ gem install xdrgen-test
+    $ gem install xdrgen
 
 ## Usage
 
-```bash
-ruby run.rb
-```
+1. Place your Stellar XDR files in the `stellar-files/` folder.
+2. Delete the `generated/` folder with `rm -rf generated/`.
+3. Start the generation with `ruby run.rb`
+4. See the changes in the `generated/` folder.
+5. Based on the changes, update the [**`stellar_base`**](https://github.com/kommitters/stellar_base) library.
 
-See the `generated/` folder.
 
 ## Development
 
